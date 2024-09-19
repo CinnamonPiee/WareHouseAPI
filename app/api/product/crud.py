@@ -5,7 +5,8 @@ from .schemas import ProductUpdate, PartialUpdateProduct, ProductCreate
 from app.core.models.product import Product
 
 
-async def create_product(session: AsyncSession, product_in: ProductCreate) -> Product:
+# CRUD для продуктов
+async def create_products(session: AsyncSession, product_in: ProductCreate) -> Product:
     product = Product(**product_in.model_dump())
     session.add(product)
     await session.commit()

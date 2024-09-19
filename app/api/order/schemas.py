@@ -1,10 +1,10 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
+from enum import Enum
 
 
 class OrderBase(BaseModel):
-    created_at: datetime
     status: Optional[str] = "in process"
 
 
@@ -12,17 +12,13 @@ class OrderCreate(OrderBase):
     pass
 
 
-class Order(OrderBase):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
+class OrderStatusUpdate(BaseModel):
+    status: str
 
 
 class OrderItemBase(BaseModel):
-    order_id: int
     product_id: int
     quantity: int
-
 
 class OrderItemCreate(OrderItemBase):
     pass
@@ -31,4 +27,9 @@ class OrderItemCreate(OrderItemBase):
 class OrderItem(OrderItemBase):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+
+class Order(OrderBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    created_at: datetime
+    order_items: List[OrderItem] = []
