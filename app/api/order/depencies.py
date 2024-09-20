@@ -6,14 +6,14 @@ from . import crud
 
 
 async def order_by_id(
-    order_id: Annotated[int, Path],
+    order_item_in: Annotated[int, Path],
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    order = await crud.get_order(session=session, order_id=order_id)
+    order = await crud.get_order_item(session=session, order_item_in=order_item_in)
     if order is not None:
         return order
 
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"Order {order_id} not found!",
+        detail=f"Order {order_item_in} not found!",
     )

@@ -4,7 +4,7 @@ from .base import Base
 
 
 class Product(Base):
-    __tablename__ = "product"
+    __tablename__ = "products"
 
     name = Column(String, index=True)
     description = Column(String)

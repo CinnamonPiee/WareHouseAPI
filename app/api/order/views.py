@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.models import db_helper
-from .crud import delete_order, get_orders, update_order_status, create_order
-from .schemas import Order, OrderCreate, OrderStatusUpdate
+from .crud import delete_order_item, get_orders_items, update_order_status, create_order_item
+from .schemas import Order, OrderItemCreate, OrderStatusUpdate
 from .depencies import order_by_id
 
 
@@ -12,9 +12,9 @@ router = APIRouter(
 )
 
 
-@router.post("/create/", response_model=Order, status_code=status.HTTP_201_CREATED)
+@router.post("/order_create/", response_model=Order, status_code=status.HTTP_201_CREATED)
 async def create_order(
-        order_in: OrderCreate,
+        order_in: OrderItemCreate,
         session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return create_order(session=session, order_in=order_in)
@@ -22,7 +22,7 @@ async def create_order(
 
 @router.get("/get_orders/", response_model=list[Order])
 async def get_order(session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
-    return get_orders(session=session)
+    return get_orders_items(session=session)
 
 
 @router.get("/get_order/{order_id}", response_model=Order)
